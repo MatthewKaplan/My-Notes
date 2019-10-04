@@ -62,4 +62,76 @@
  - **What is a region, an availability zone, and an edge location?**
  - **Where is CloudFront data cached?**
 
+### Identity Access Management & S3
 
+---
+
+#### Identity Access Management (IAM) 101
+
+- **Identity Access Management**, IAM allows you to manage users and their level of access to the AWS console. It is important to know for administrating a company's AWS account. Allows you to create users, groups, roles, etc. on the platform and provide permissions. 
+
+##### IAM Features
+
+- Centralized control of you AWS account
+- Shared access to you AWS account
+- Granular permissions
+- Identity federations, allows end-users to potentially log in using their Facebook account, LinkedIn, etc.
+- Multi-factor Authentication
+- Provide temporary access for users/devices and services
+- Allows password rotation policy 
+- Integrated with many different AWS services
+- Supports PCI DSS Compliance, a compliance required for handling user data and money.
+
+##### IAM Permissions
+
+- **Users** - End Users such as employees
+- **Groups** - A collection of users, each user will inherit the permissions of the group.
+- **Policies** - Policies are made up of documents called Policy documents. These documents are in JSON (JavaScript Object Notation) format and give permission to what a User/Group/Role is able to do.
+- **Roles** - You create roles and assign them to AWS resources. The resources then can communicate with other AWS services.
+
+##### Hands On
+
+- Policy example (AdministratorAccess)
+
+```
+// Allow the user to have access to all (*) actions on all (*) resources
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "*",
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+##### Keywords:
+
+- **IAM** - Identity Access Management
+- **Root Account** - Account created when we first setup AWS account. It has complete Admin access.
+- **2FA** - Two-factor authentication
+- **MFA** - Multi-factor authentication
+- **Billing Alarm** - An billing limit you set that will trigger once its been reached. 
+- **SNS** - Simple notification service
+- **Users**
+- **Groups**
+- **Policies**
+- **Roles**
+
+##### Exam Tips:
+
+- **IAM is universal.** It does not apply to regions at this time.
+- The **"root account"** is simply the account created when first setup your AWS account. It has complete Admin access.
+- New Users have **NO permissions** when first created.
+- New Users are assigned **Access Key ID** & **Secret Access Keys** when first created.
+- **These are not the same as a password.** You cannot use the Access key ID & Secret Access Key to Login to the console. You can use this to access AWS via the APIs and Command Line, however.
+- **You only get to view these once.** If you lose them, you have to regenerate them. So, save them in a secure location.
+- Always set up **Multi-factor Authentication** on your root account.
+- You can create and customize your own **password rotation policies.**
+
+##### Exam Scenarios:
+
+- **You need to protect your account from being over-billed. How can you accomplish this?**
+  - You go into CloudWatch and you create a billing alarm. A billing alarm uses an SNS topic to email you when your account goes over the specificated threshold.
