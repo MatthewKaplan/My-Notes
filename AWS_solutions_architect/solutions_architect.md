@@ -936,3 +936,188 @@ What is the default level of access a newly created IAM User is granted?
   - AWS recommend homogenous instances within clustered placement groups.
   - You can't merge placement groups.
   - You can't move an existing instance into a placement group. You can create an AMI from your existing instance, and then launch a new instance from the AMI into a placement group.
+
+---
+### EC2 Summary
+---
+
+### EC2
+
+  - **What is EC2?**
+    - **Elastic Compute Cloud**, Amazon EC2 is a web service that provides resizable compute capacity in the cloud. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, this provides for the ability to quickly scale capacity both up and down as your computing requirements change.
+  - **EC2 Pricing options**
+    - **On Demand** - No commitment model that allows you to pay by the hour or even second.
+    - **Reserved** - Provides a capacity reservation and offers a significant discount on the hourly charge for an instance. **Contact terms are 1 or 3 year terms**.
+    - **Spot** - Enables you to bid on excess EC2 capacity. Amazon will drop the price on EC2 instances to encourage people to use that surplu capacity. You would set price you're willing to bid at and when the prices for the EC2 instances lowers you will have access to those additional resources. As the on-demand demand goes up, the prices for those instances will go up and if they pass your price point you will lose access to them until the next occurrence of reduced prices. It's essentially a market for buying into extra resources when they're in supply. 
+    - **Dedicated Host** - Physical EC2 server dedicated for your use. Dedicated hosts can help you reduce costs by allowing you to use your existing server-bound software licenses.
+  - If the Spot instance is terminated by Amazon EC2, you will not be charged for a partial hour of usage. However, if you terminate the instance yourself, you will be charged for any hour in which the instance ran.
+
+### EBS
+
+  - Termination Protection is **turned off** by default, you must turn it on.
+  - On an EBS-backed instance, the **default action is for the root EBS volume to be deleted** when the instance is terminated.
+  - EBS Root Volumes of your DEFAULT AMI's cannot be encrypted. You can also use a third party tool (such as bit locker etc.) to encrypt the root volume, or this can be done when creating AMI's in the AWS console or using the API.
+  - Additional volumes can be encrypted.
+
+### Security Groups
+
+  - All Inbound traffic is blocked by default.
+  - All Outbound traffic is allowed. 
+  - Changed to security Groups take effect **immediately**.
+  - You can have any number of EC2 instances within a security group.
+  - You can have multiple security groups attached to EC2 instances.
+  - Security Groups are **STATEFUL**.
+  - If you create an inbound rule allowing traffic in, that traffic is automatically allowed back out again.
+  - You cannot block specific IP addresses using Security Groups, instead use Network Access Control Lists.
+  - You can specify allow rules, but not deny rules.
+
+### Compare EBS Types
+
+##### 5 Types of EBS Storage
+
+  > gp2, io1, st1, sc1, standard
+
+  - **General Purpose (SSD)** - **gp2** - Balance of price and performance suitable for most workloads.
+    > _Volume Size: 1 GiB - 16 TiB, Max IOPS Volume: 16,000_
+  - **Provisioned IOPS (SSD)** - **io1** - Highest Performance SSD volume designed for mission-critical applications.
+    > _Volume Size: 4 GiB - 16 TiB, Max IOPS Volume: 64,000_
+  - **Throughput Optimized HDD** - **st1** - Lost cost HDD volume suitable for Big Data & Data Warehouses
+    > _Volume Size: 500 GiB - 16 TiB, Max IOPS Volume: 500_
+  - **Cold HDD** - **sc1** - File Servers
+    > _Volume Size: 500 GiB - 16 TiB, Max IOPS Volume: 250_
+  - **EBS magnetic HDD** - **standard** - Workloads where data is infrequently accessed and not using something like S3 Glacier.
+    > _Volume Size: 1 GiB - 1 TiB, Max IOPS Volume: 40-200_
+  
+### EBS Snapshots
+
+  - Volumes exist on EBS. Think of EBS as a virtual hard disk.
+  - **Snapshots exist on S3**. Think of snapshots as a photograph of the disk.
+  - Snapshots are point-of-time copies of Volumes.
+  - **Snapshots are incremental** -- this means that only the blocks that have changed since your last snapshot are moved to S3.
+  - The first snapshot takes some time to create.
+  - To create a snapshot for Amazon EBS volumes that serve as root devices, you should stop the instance before taking the snapshot to ensure it is consistent. Though, it can still be taken while the instance is running.
+  - You can create AMI's from both Volumes and Snapshots.
+  - You can change EBS volume sizes on the fly, including changing the size and storage type.
+  - Volumes will **ALWAYS** be in the AZ as the EC2 instance.
+
+### Migrating EBS
+
+  - EC2 AZ change. EC2 volumes can be moved from one AZ to another. To move an EC2 volume, take a snapshot of it, create an AMI from the snapshot, then use the AMI to launch the EC2 instance in a new AZ.
+  - EC2 Region change. Take a snapshot of the EC2 volume, create an AMI from the snapshot, copy the AMI from one region to another. Then use the copied AMI to launch the new EC2 instance in the new region.
+
+### EBS vs Instance Store
+
+  - Instance Store Volumes are sometimes called **Ephemeral Storage**.
+  - Instance store volumes cannot be stopped. If the underlying host fails, you will lose your data.
+  - EBS backed instances can be stopped. You will not lose the data on this instance if it is stopped.
+  - You can reboot both, you will not lose your data. 
+  - By default, both ROOT volumes will be deleted on termination. However, with EBS columns, you can tell AWS to keep the root device volume.
+
+### CloudWatch
+
+  - CloudWatch is used for monitoring performance.
+  - CloudWatch can monitor most of AWS as well as your applications that run on AWS.
+  - CloudWatch with EC2 will monitor events every 5 minutes by default.
+  - You can have 1 minute intervals by turning on detailed monitoring.
+  - You can create CloudWatch alarms which trigger notifications.
+  - CloudWatch is all about performance. CloudTrail is all about auditing.
+  - Standard Monitoring = 5 Minutes
+  - Detailed Monitoring = 1 Minute
+  - **What Can I do With CloudWatch?**
+    - **Dashboards** - Creates awesome dashboards to see what is happening with your AWS environment.
+    - **Alarms** - Allows you to set Alarms that notify you when particular thresholds are hit.
+    - **Events** - CloudWatch Events helps you to respond to state changes in your AWS resources.
+    - **Logs** - CloudWatch Logs helps you to aggregate, monitor, and store logs.
+
+### The CLI
+
+  - You can interact with AWS from anywhere in the world just by using the command line (CLI)
+  - You will need to set up access in **IAM**
+  - Commands themselves are not in the exam, but some basic commands will be useful to know for real life.
+
+### Roles 
+
+  - Roles are more secure than storing your access key and secret access key on individual EC2 instances.
+  - Roles are easier to manage.
+  - Roles can be assigned to an EC2 instance after it is created using both the console & command line.
+  - Roles are universal -- you can use them in any region.
+
+### BootStrap Scripts
+
+  - Bootstrap scripts run when an EC2 instance first boots.
+  - Can be a powerful way of automating software installs and updates.
+
+### EFS
+
+  - Supports the Network File System version 4 (NFSv4) protocol.
+  - You only pay for the storage you use (no pre-provisioning required).
+  - Can scale up to the petabytes.
+  - Can support thousands of concurrent NFS connections.
+  - Data is stored across multiple Availability Zones within a region.
+  - Read After Write Consistency.
+
+### EC2 Placement Groups
+
+  - Three Types of Placement Groups
+    - **Clustered Placement Group**
+      - Low Network Latency / High Network Throughput
+    - **Spread Placement Group**
+      - Individual Critical EC2 instances
+    - **Partitioned**
+      - Multiple EC2 instances HDFS, HBase, and Cassandra
+  - A clustered placement group can't span multiple Availability Zones.
+  - A spread placement and partitioned group can.
+  - The name you specify for a placement group must be unique within your AWS account.
+  - Only certain types of instances can be launched in a placement group (Compute Optimized, GPU, Memory Optimized, Storage Optimized)
+  - AWS recommend homogenous instances within clustered placement groups.
+  - You can't merge placement groups.
+  - You can't move an existing instance into a placement group. You can create an AMI from your existing instance, and then launch a new instance from the AMI into a placement group.
+
+--- 
+### EC2 Quiz:
+---
+
+- Can Spread Placement Groups be deployed across multiple Availability Zones?
+  - YES.
+- When creating a new security group, all inbound traffic is allowed by default.
+  - FALSE.
+- To help you manage your Amazon EC2 instances, you can assign your own metadata in the form of ________.
+  - Tags.
+- Which of the following features only relate to Spread Placement Groups?
+  - The placement group can only have 7 running instances per Availability Zone.
+- In order to enable encryption at rest using EC2 and Elastic Block Store, you must ________.
+  - Configure encryption when creating the EBS volume.
+- Can I move a reserved instance from one region to another?
+  - NO.
+- You need to know both the private IP address and public IP address of your EC2 instance. You should ________.
+  - Retrieve the instance Metadata from http://169.254.169.254/latest/meta-data/
+- Amazon's EBS volumes are ________.
+  - Block-based storage.
+- If an Amazon EBS volume is an additional partition (not the root volume), can I detach it without stopping the instance?
+  - Yes, although it may take some time.
+- You can add multiple volumes to an EC2 instance and then create your own RAID 5/RAID 10/RAID 0 configurations using those volumes.
+  - TRUE.
+- Individual instances are provisioned ________.
+  - In Availability Zones.
+- Spread Placement Groups can be deployed across multiple Availability Zones
+  - TRUE.
+- Is it possible to perform actions on an existing Amazon EBS Snapshot?
+  - Yes, through the AWS APIs, CLI, and AWS Console.
+- The use of a cluster placement group is ideal _______.
+  - Your fleet of EC2 instances requires high network throughput and low latency within a single availability zone.
+- EBS Snapshots are backed up to S3 in what manner?
+  - Incrementally.
+- Can I delete a snapshot of an EBS Volume that is used as the root device of a registered AMI?
+  - NO.
+- Which AWS CLI command should I use to create a snapshot of an EBS volume?
+  - aws ec2 create-snapshot
+- I can change the permissions to a role, even if that role is already assigned to an existing EC2 instance, and these changes will take effect immediately.
+  - TRUE.
+- To retrieve instance metadata or user data you will need to use the following IP Address:
+  - http://169.254.169.254
+- Will an Amazon EBS root volume persist independently from the life of the terminated EC2 instance to which it was previously attached? In other words, if I terminated an EC2 instance, would that EBS root volume persist?
+  - Only if I specify (using either the AWS Console or the CLI) that it should do so.
+- I can use the AWS Console to add a role to an EC2 instance after that instance has been created and powered-up.
+  - TRUE.
+- Can you attach an EBS volume to more than one EC2 instance at the same time?
+  - NO.
