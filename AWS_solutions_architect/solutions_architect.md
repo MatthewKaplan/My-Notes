@@ -706,3 +706,87 @@ What is the default level of access a newly created IAM User is granted?
   - If you create an inbound rule allowing traffic in, that traffic is automatically allowed back out again.
   - You cannot block specific IP addresses using Security Groups, instead use Network Access Control Lists.
   - You can specify allow rules, but not deny rules.
+
+---
+### EBS 101
+---
+
+  - **Elastic Block Store**, it provides persistent block storage volumes for use with Amazon EC2 instances in the AWS cloud. **Each Amazon EBS volume is automatically replicated within its Availability Zone to protect you from component failure**, offering high availability and durability. In short, EBS is virtual HDD in the cloud.
+
+#### 5 Types of EBS Storage
+
+> gp2, io1, st1, sc1, standard
+
+- **General Purpose (SSD)** - **gp2** - Balance of price and performance suitable for most workloads.
+  > _Volume Size: 1 GiB - 16 TiB, Max IOPS Volume: 16,000_
+- **Provisioned IOPS (SSD)** - **io1** - Highest Performance SSD volume designed for mission-critical applications.
+  > _Volume Size: 4 GiB - 16 TiB, Max IOPS Volume: 64,000_
+- **Throughput Optimized HDD** - **st1** - Lost cost HDD volume suitable for Big Data & Data Warehouses
+  > _Volume Size: 500 GiB - 16 TiB, Max IOPS Volume: 500_
+- **Cold HDD** - **sc1** - File Servers
+  > _Volume Size: 500 GiB - 16 TiB, Max IOPS Volume: 250_
+- **EBS magnetic HDD** - **standard** - Workloads where data is infrequently accessed and not using something like S3 Glacier.
+  > _Volume Size: 1 GiB - 1 TiB, Max IOPS Volume: 40-200_
+
+---
+### Volumes and Snapshots
+---
+
+- Volumes exist on EBS. Think of EBS as a virtual hard disk.
+- **Snapshots exist on S3**. Think of snapshots as a photograph of the disk.
+- Snapshots are point-of-time copies of Volumes.
+- **Snapshots are incremental** -- this means that only the blocks that have changed since your last snapshot are moved to S3.
+- The first snapshot takes some time to create.
+- To create a snapshot for Amazon EBS volumes that serve as root devices, you should stop the instance before taking the snapshot to ensure it is consistent. Though, it can still be taken while the instance is running.
+- You can create AMI's from both Volumes and Snapshots.
+- You can change EBS volume sizes on the fly, including changing the size and storage type.
+- Volumes will **ALWAYS** be in the AZ as the EC2 instance.
+- EC2 AZ change. EC2 volumes can be moved from one AZ to another. To move an EC2 volume, take a snapshot of it, create an AMI from the snapshot, then use the AMI to launch the EC2 instance in a new AZ.
+- EC2 Region change. Take a snapshot of the EC2 volume, create an AMI from the snapshot, copy the AMI from one region to another. Then use the copied AMI to launch the new EC2 instance in the new region.
+
+* **What ever AZ an EC2 instance is located, the EBS volume with be in the same location.** When you have a virtual machine, you would want the virtual hard drive to be as close as possible, so having them in the same location is a logical conclusion.
+
+* **How do you move an EDS volume to a new location?**
+
+* a **snapshot** is a "photograph" of the disk.
+
+* **When you terminate an EC2 instance will the root and EBS volumes all terminate?**
+  _No. When you terminate an EC2 instance only the root volume will terminate with it. You will need to manually terminate additional EBS volumes that you had provisioned._
+
+---
+### AMI Types (EBS vs Instance Store)
+--- 
+
+#### You can select your AMI based on:
+
+  - Region (see Regions and Availability Zones)
+  - Operating system
+  - Architecture
+  - Launch Permissions
+  - Storage for the Root Device (Root Device Volume)
+    - Instance Store (**EPHEMERAL STORAGE**)
+    - EBS Backed Volumes
+
+#### Exam Tips: 
+
+  - Instance Store Volumes are sometimes called **Ephemeral Storage**.
+  - Instance store volumes cannot be stopped. If the underlying host fails, you will lose your data.
+  - EBS backed instances can be stopped. You will not lose the data on this instance if it is stopped.
+  - You can reboot both, you will not lose your data. 
+  - By default, both ROOT volumes will be deleted on termination. However, with EBS columns, you can tell AWS to keep the root device volume.
+
+---
+### Encrypted Root Device Volumes & Snapshots
+---
+
+#### Exam Tips: 
+
+  - Snapshots of encrypted volumes are encrypted automatically.
+  - Volumes restored from encrypted snapshots are encrypted automatically.
+  - You can share snapshots, but only if they are un-encrypted.
+  - These snapshots can be shared with other AWS accounts or made public.
+  - You can now encrypt root device volumes upon creation of the EC2 instance.
+  - Create a Snapshot of the un-encrypted root device volume.
+  - Create a copy of the Snapshot and select the encrypt option.
+  - Create an AMI from the encrypted Snapshot.
+  - Use that AMI to launch new encrypted instances.
