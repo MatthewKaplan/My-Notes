@@ -790,3 +790,149 @@ What is the default level of access a newly created IAM User is granted?
   - Create a copy of the Snapshot and select the encrypt option.
   - Create an AMI from the encrypted Snapshot.
   - Use that AMI to launch new encrypted instances.
+
+---
+### CloudWatch
+---
+
+  - **Amazon CloudWatch** is a monitoring service to monitoring service to monitor you AWS resources, as well as the applications that you run on AWS.
+
+#### CloudWatch can monitor things like:
+
+  - Compute
+    - EC2 Instances
+    - Autoscaling Groups 
+    - Elastic Load Balancers
+    - Route53 Health Checks
+  - Storage & Content Delivery
+    - EBS Volumes 
+    - Storage Gateways
+    - CloudFront
+
+##### Host Level Metrics Consist of:
+
+  - CPU
+  - Network
+  - Disk
+  - Status Check
+
+#### What is AWS CloudTrail?
+
+  - **AWS CloudTrail** increases visibility into your user and resource activity by recording AWS Management Console actions and API calls. 
+  - You can identify which users and accounts called AWS, the source IP address from which the calls were made, and when the calls occurred.
+
+##### CloudTrail vs CloudWatch
+
+  - **CloudWatch** monitors performance.
+  - **CloudTrail** monitors API calls in the AWS platform.
+
+#### Exam Tips: 
+
+  - CloudWatch is used for monitoring performance.
+  - CloudWatch can monitor most of AWS as well as your applications that run on AWS.
+  - CloudWatch with EC2 will monitor events every 5 minutes by default.
+  - You can have 1 minute intervals by turning on detailed monitoring.
+  - You can create CloudWatch alarms which trigger notifications.
+  - CloudWatch is all about performance. CloudTrail is all about auditing.
+  - Standard Monitoring = 5 Minutes
+  - Detailed Monitoring = 1 Minute
+  - **What Can I do With CloudWatch?**
+    - **Dashboards** - Creates awesome dashboards to see what is happening with your AWS environment.
+    - **Alarms** - Allows you to set Alarms that notify you when particular thresholds are hit.
+    - **Events** - CloudWatch Events helps you to respond to state changes in your AWS resources.
+    - **Logs** - CloudWatch Logs helps you to aggregate, monitor, and store logs.
+
+--- 
+### AWS Command Line
+--- 
+
+#### Exam Tips:
+
+  - You can interact with AWS from anywhere in the world just by using the command line (CLI)
+  - You will need to set up access in **IAM**
+  - Commands themselves are not in the exam, but some basic commands will be useful to know for real life.
+
+--- 
+### Using IAM Roles With EC2
+---
+
+#### Exam Tips: 
+
+  - Roles are more secure than storing your access key and secret access key on individual EC2 instances.
+  - Roles are easier to manage.
+  - Roles can be assigned to an EC2 instance after it is created using both the console & command line.
+  - Roles are universal -- you can use them in any region.
+
+---
+### EC2 Instance Meta Data
+---
+
+#### Exam Tips: 
+
+  - Used to get information about an instance (such as public ip)
+  - curl http://169.254.169.254/latest/meta-data/
+  - curl http://169.254.169.254/latest/user-data/
+
+---
+### Elastic File System
+---
+
+  - **Amazon Elastic File System (Amazon EFS)** is a file storage service for Amazon Elastic Compute Cloud (Amazon EC2) instances.
+  - Amazon EFS is easy to use and provides a simple interface that allows you to create and configure file systems quickly and easily.
+  - With Amazon EFS, storage capacity is elastic, growing and shrinking automatically as you add and remove files, so your applications have the storage they need, when they need it.
+
+#### Exam Tips: 
+
+  - Supports the Network File System version 4 (NFSv4) protocol.
+  - You only pay for the storage you use (no pre-provisioning required).
+  - Can scale up to the petabytes.
+  - Can support thousands of concurrent NFS connections.
+  - Data is stored across multiple Availability Zones within a region.
+  - Read After Write Consistency.
+
+---
+### EC2 Placement Groups
+---
+
+#### Three Types of Placement Groups
+
+  - **Clustered Placement Group**
+  - **Spread Placement Group**
+  - **Partitioned**
+
+##### Clustered Placement Group
+
+  - A **cluster placement group** is a grouping of instancs within a single Availability Zone. Placement groups are recommended for applications that need low network latency, high network thoughput, or both.
+
+  - Only certain instances can be launched in to a Clustered Placement Group.
+
+##### Spread Placement Group
+
+  - a **Spread Placement Group** is a group of instances that are each placed on distinct underlying hardware.
+
+  - Spread placement groups are recommended for applications that have a small number of critical instances that should be kept separate from each other.
+
+  - THINK INDIVIDUAL INSTANCES
+
+##### Partitioned Placement Group
+
+  - When using **Partitioned Placement Groups**, Amazon EC2 divides each group into logical segments called partitions. Amazon EC2 ensures that each partition within a placement group has its own set of racks. Each rack has its own network and power source. No two partitions within a placement group share the same racks, allowing you to isolate the impact of hardware failure within your application.
+
+  - THINK MULTIPLE INSTANCES
+
+#### Exam Tips: 
+
+  - Three Types of Placement Groups
+    - **Clustered Placement Group**
+      - Low Network Latency / High Network Throughput
+    - **Spread Placement Group**
+      - Individual Critical EC2 instances
+    - **Partitioned**
+      - Multiple EC2 instances HDFS, HBase, and Cassandra
+  - A clustered placement group can't span multiple Availability Zones.
+  - A spread placement and partitioned group can.
+  - The name you specify for a placement group must be unique within your AWS account.
+  - Only certain types of instances can be launched in a placement group (Compute Optimized, GPU, Memory Optimized, Storage Optimized)
+  - AWS recommend homogenous instances within clustered placement groups.
+  - You can't merge placement groups.
+  - You can't move an existing instance into a placement group. You can create an AMI from your existing instance, and then launch a new instance from the AMI into a placement group.
