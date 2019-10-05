@@ -11,6 +11,8 @@
 
 ### Overview of AWS
 
+---
+
 #### The History of AWS
 
 - Why is AWS so powerful? 
@@ -66,7 +68,7 @@
 
 ---
 
-#### Identity Access Management (IAM) 101
+### Identity Access Management (IAM) 101
 
 - **Identity Access Management**, IAM allows you to manage users and their level of access to the AWS console. It is important to know for administrating a company's AWS account. Allows you to create users, groups, roles, etc. on the platform and provide permissions. 
 
@@ -135,3 +137,133 @@
 
 - **You need to protect your account from being over-billed. How can you accomplish this?**
   - You go into CloudWatch and you create a billing alarm. A billing alarm uses an SNS topic to email you when your account goes over the specificated threshold.
+
+--- 
+
+### S3 101
+
+  - **Simple Storage Service.** One of the oldest services on AWS. It provides developers and IT teams with secure, durable, and highly-scalable object storage. S3 is easy to use with a simple web service interface that allows you to store and retrieve information from anywhere in the world.
+
+#### S3 Features
+
+  - S3 is **Object-based**, ie allows you to upload files
+  - Files can range between 0 Bytes to 5 Terabytes
+  - There is unlimited storage
+  - Files are stored in Buckets (directory). Must have a unique name.
+  - S3 is a universal name space. Names must be unique globally.
+  - When you upload a file to S3 you will receive an HTTP 200 code.
+  - Tiered Storage
+  - Life-cycle Management. Allows files to be moved around.
+  - Versioning
+  - Encryption
+  - MFA Delete
+  - Secure data using **Access Control Lists** and **Bucket Policies**
+
+#### S3 Objects
+
+  - **Key** - Name of the object
+  - **Value** - Data in the form of bytes
+  - **Version ID** - Important for versioning
+  - **Metadata** - Data about the data
+  - **Sub-resources** - Access Control Lists, Torrent
+
+#### How does data consistency work for S3?
+
+  - Read after write for POSTs of new objects. As soon as you upload a file, you can read it.
+  - Eventual consistency for overwrite PUTs and DELETEs, if you wait a few moments you will be able to read the latest version.
+
+#### S3 Guarantees
+
+  - 99.99% availability guaranteed by Amazon and 99.99999999999% durability. (Remember 11 x 9's)
+
+#### S3 Storage Classes / Tiers
+
+  - **S3 Standard** - 99.99% availability and 99.99999999999% durability. Data is stored redundantly across multiple devices in multiple facilities and is designed to sustain the loss of 2 facilities concurrently. (Milliseconds to access data)
+  - **S3 - IA** - Infrequently Accessed. For less frequently accessed data, but requires rapid access when needed. Lower fee than S3 standard, but you are charged a retrieval fee. (Milliseconds to access data)
+  - **S3 One Zone - IA** - Infrequently Accessed. A much cheaper IA option but lacks the multiple AZ data resilience. (Milliseconds to access data)
+  - **S3 Intelligent Tiering** - Leverages machine learning to automatically move data to most cost-effective access tier, without performance impact or operational overhead. (Milliseconds to access data)
+  - **S3 Glacier** - Secure, durable, low-cost storage class for data archiving. You can reliably store any amount of data at costs that are cheaper than on-premises solutions. Retrieval times are configurable, can range from minutes to hours. (Select minutes or hours to access data)
+  - **S3 Glacier Deep Archive** - Amazon S3's lowest-cost storage class. Retrieval time byte latency of 12 hours is acceptable. (Select hours to access data)
+
+#### S3 Charges for:
+
+  - **Storage** 
+  - **Requests**
+  - **Storage Management Pricing** 
+  - **Data Transfer Pricing**
+  - **Transfer Acceleration** - Allows for fast, easy, and secure transfers of files over long distances between your end users and an S3 bucket. Transfer Acceleration takes advantage of Amazon CloudFront's globally distributed edge locations. As the data arrives at an edge location, data is then re-routed to Amazon S3 over an optimized network / Amazon's backbone network.
+  - **Cross Region Replication** - Allows for data to be automatically replicated in another region. Allows for increased availability and provides disaster durability.
+
+#### S3 Security and Encryption:
+  - By default, all newly created buckets are **private**. You can setup access control to your buckets using **Bucket Policies, Access Control Lists**. Additionally, S3 buckets can be configured to create access logs, which cause all requests to be logged and sent to an S3 Bucket on the same account or even on another account.
+
+##### Encryption
+
+  - **Encryption in transit** - HTTPS is an example of encryption in transit. Achieved by **SSL/TLS**.
+  - **Encryption at Rest** - Can be handled server-side (amazon helps here), or client-side, where you the developer encrypt the object yourself and upload it to S3. 
+
+##### Server Side Encryption 
+  1. **S3 Managed Keys - SSE-S3**, amazon automatically manages the keys (encryption / decryption) for you.
+  2. **AWS Key Management Service, Managed Keys - SSE-KMS**, developer and amazon manage the keys together.
+  3. **Server Side Encryption with Customer provided keys - SSE-C**, give amazon your own keys, that you manage, and you can use them to encrypt your S3 objects.
+  4. **Client side encryption**. Encrypt client side and upload to S3.
+
+#### S3 Version Control
+
+##### Features 
+
+  - Stores all versions of an object, including all writes even if you delete the object.
+  - Great back-up tool
+  - Once enabled, **versioning cannot be disabled**, only suspended.
+  - Integrates with **life-cycle** rules.
+  - **Versioning comes with MFA delete capability** which provides another level of security.
+
+#### S3 life-cycle Management and Glacier 
+
+  - Life-cycles allow you to set rules to manage your objects, they can be automated to transition to tiered storage, and eventually they can be automatically set to expire based on retention needs. In short, life-cycles automate the moving of objects between different storage tiers and can be used in conjunction with versioning (can be applied to current and previous versions).
+
+#### Cross Region Replication
+
+  - Allows for data to be automatically replicated in another region. Allows for increased availability and provides disaster durability.
+  - Versioning must be enabled on both the source and destination buckets.
+  - Regions must be unique.
+  - Files in an existing bucket are not replicated automatically.
+  - All subsequent updated files will be replicated automatically.
+  - Delete markers are not replicated.
+  - Deleting individual versions or delete markers will not be replicated.
+
+#### S3 Transfer Acceleration
+
+  - S3 Transfer Acceleration utilizes the **CloudFront Edge Network** to accelerate you uploads to S3. Instead of uploading directly to your S3 bucket, you can use a distinct URL to upload directly to an edge location which will then transfer that file to S3. You will get a distinct URL to upload to.
+
+#### Keywords:
+
+  - **RRS** - Reduced Redundancy Storage
+
+#### Exam Tips:
+
+  - Remember that S3 is **Object Based**: i.e. allows you to upload files. 
+  - Files can be from **0 Bytes** to **5 TB**.
+  - There is **unlimited storage**.
+  - Files are stored in **Buckets**.
+  - **S3 is a universal namespace.** That is, names must be unique globally.
+  - Not suitable to install an operating system or database on.
+  - Successful uploads will generate a **HTTP 200** status code.
+  - You can turn on **MFA Delete**
+  - Read after Write consistency for **PUTS** of new Objects.
+  - **Eventual Consistency** for overwrite PUTS and DELETES (Can take some time to propagate)
+  - **STORAGE CLASSES!**
+    - S3 Standard
+    - S3 - IA
+    - S3 One Zone - IA
+    - S3 - Intelligent Tiering
+    - S3 Glacier
+    - S3 Glacier Deep Archive
+  - Read the S3 FAQs before taking the exam. It comes up A LOT!
+  - Control access to buckets using either a **bucket ACL** or using **Bucket Polices**
+  - Versioning stores all versions of an object (including all writes and even if you delete an object)
+  - Life Cycle allows your to automate moving your objects between the different storage tiers.
+
+  --- 
+
+### CloudFront
