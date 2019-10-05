@@ -1358,3 +1358,103 @@ What is the default level of access a newly created IAM User is granted?
     - Maximum retention period is 35 days.
     - Redshift always attempts to maintain at least three copies of your data (the original and replica on the compute nodes and a backup in Amazon S3)
     - Redshift can also asynchronously replicate your snapshots to S3 in another region for disaster recovery.
+
+---
+### Aurora
+---
+
+  - **Amazon Aurora** is a MySQL-compatible, relational database engine that combines the speed and availability of high-end commercial databases with the simplicity and cost-effectiveness of open source databases.
+  - Amazon Aurora provides up to five times better performance than MySQL at a price point one tenth that of a commercial database while delivering similar performance and availability.
+
+#### Things to know about Aurora:
+
+  - Start with 10GB, scales in 10GB increments to 64TB (Storage Autoscaling)
+  - Compute resources can scale up to 32vCPUs and 244GB of Memory.
+  - 2 copies of your data is contained in each availability zone, with minimum of 3 availability zones. 6 copies of your data.
+
+#### Two Types of Aurora Replicas are available:
+
+  - Aurora Replicas (currently 15)
+  - MySQL Read Replicas (currently 5)
+
+#### Backups With Aurora
+
+  - Automated backups are always enabled on Amazon Aurora DB Instances. Backups do not impact database performance.
+  - You can also take snapshots with Aurora. This also does not impact on performance.
+  - You can share Aurora Snapshots with other AWS accounts.
+
+#### Exam Tips: 
+
+  - 2 copies of your data is contained in each availability zone, with minimum of 3 availability zones. 6 copies of your data.
+  - You can share Aurora Snapshots with other AWS accounts.
+  - 2 types of replicas available. Aurora Replicas and MySQL replicas. Automated failover is only available with Aurora Replicas.
+  - Aurora has automated backups turned on by default. You can also take Snapshots with Aurora. You can share these snapshots with other AWS accounts.
+
+---
+### Elasticache
+---
+
+  - **Elasticache** is a web service that makes it easy to deploy, operate, and scale an in-memory cache in the cloud. The service improves the performance of web applications by allowing you to retrieve information from fast, managed, in-memory caches, instead of relying entirely on slower disk-based databases.
+
+##### ElastiCache supports two open-source in-memory caching engines:
+
+  - **Memcached**
+  - **Redis**
+
+#### Exam Tips:
+
+  - Use ElastiCache to increase database and web application performance.
+
+---
+### Database Quiz
+---
+
+- Which of the following is not a feature of DynamoDB?
+  - The ability to store relational-based data.
+- What happens to the I/O operations of a single-AZ RDS instance during a database snapshot or backup?
+  - I/O may be briefly suspended while the backup process initializes (typically under a few seconds), and you may experience a brief period of elevated latency.
+- You can RDP or SSH into an RDS instance to see what is going on with the operating system.
+  - FALSE.
+- AWS's NoSQL product offering is known as ________.
+  - DynamoDB
+- Which set of RDS database engines is currently available?
+  - Oracle, SQL Server, MySQL, PostgreSQL
+- When creating an RDS instance, you can select the Availability Zone into which you deploy it.
+  - TRUE.
+- RDS Reserved instances are available for multi-AZ deployments.
+  - TRUE.
+- With new RDS DB instances, automated backups are enabled by default.
+  - TRUE.
+- In RDS, what is the maximum value I can set for my backup retention period?
+  - 35 Days
+- If I wanted to run a database on an EC2 instance, which of the following storage options would Amazon recommend?
+  - EBS
+- How many copies of my data does RDS – Aurora store by default?
+  - 6
+- MySQL installations default to port number ________.
+  - 3306
+- If you want your application to check RDS for an error, have it look for an ______ node in the response from the Amazon RDS API.
+  - Error
+- Which AWS DB platform is most suitable for OLTP?
+  - RDS
+- Which of the following is most suitable for OLAP?
+  - Redshift
+- Which AWS service is ideal for Business Intelligence Tools/Data Warehousing?
+  - Redshift
+- What data transfer charge is incurred when replicating data from your primary RDS instance to your secondary RDS instance?
+  - There is no charge associated with this action.
+- Under what circumstances would I choose provisioned IOPS over standard storage when creating an RDS instance?
+  - If you use online transaction processing in your production environment.
+- If you are using Amazon RDS Provisioned IOPS storage with a Microsoft SQL Server database engine, what is the maximum size RDS volume you can have by default?
+  - 16TB
+- Which of the following AWS services is a non-relational database?
+  - DynamoDB
+- You are hosting a MySQL database on the root volume of an EC2 instance. The database is using a large number of IOPS, and you need to increase the number of IOPS available to it. What should you do?
+  - Add 4 additional EBS SSD volumes and create a RAID 10 using these volumes.
+- In RDS, changes to the backup window take effect ________.
+  - Immediately
+- Amazon's ElastiCache uses which two engines?
+  - Redis & Memcached
+- When you add a rule to an RDS DB security group, you must specify a port number or protocol.
+  - FALSE
+
