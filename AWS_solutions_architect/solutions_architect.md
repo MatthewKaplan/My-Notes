@@ -523,3 +523,82 @@
     - **Cached Volumes** - Entire data-set is stored on S3 and the most frequently accessed data is cached on site.
   - **Gateway Virtual Tape Library**
     - Used for backup and uses popular backup applications like NetBackup, Backup Exec, Veeam etc.
+
+---
+### Identity Access Management & S3 Quiz
+---
+
+- What is an additional way to secure the AWS accounts of both the root account and new users alike?
+  - Implement Multi-Factor Authentication for all accounts.
+- Which of the following is not a component of IAM?
+  - Organizational Units
+- When you create a new user, that user ________.
+  - Will be able to interact with AWS using their access key ID and secret access key using the API, CLI, or the AWS SDKs
+- Which statement best describes IAM?
+  - IAM allows you to manage users, groups, roles, and their corresponding level of access to the AWS Platform.
+- Using SAML (Security Assertion Markup Language 2.0), you can give your federated users single sign-on (SSO) access to the AWS Management Console.
+  - TRUE
+- In what language are policy documents written?
+  - JSON
+What is the default level of access a newly created IAM User is granted?
+  - No access to any AWS services
+- Which of the following is not a feature of IAM?
+  - IAM allows you to set up biometric authentication, so that no passwords are required.
+- You have a client who is considering a move to AWS. In establishing a new account, what is the first thing the company should do?
+  - Set up an account using their company email address.
+- A new employee has just started work, and it is your job to give her administrator access to the AWS console. You have given her a user name, an access key ID, a secret access key, and you have generated a password for her. She is now able to log in to the AWS console, but she is unable to interact with any AWS services. What should you do next?
+  - Grant her Administrator access by adding her to the Administrators' group.
+- What level of access does the "root" account have?
+  - Administrator Access
+- Power User Access allows ________.
+  - Access to all AWS services except the management of groups and users within IAM.
+- You are a solutions architect working for a large engineering company that are moving from a legacy infrastructure to AWS. You have configured the company's first AWS account and you have set up IAM. Your company is based in Andorra, but there will be a small subsidiary operating out of South Korea, so that office will need its own AWS environment. Which of the following statements is true?
+  - You will need to configure Users and Policy Documents only once, as these are applied globally.
+- You are a security administrator working for a hotel chain. You have a new member of staff who has started as a systems administrator, and she will need full access to the AWS console. You have created the user account and generated the access key id and the secret access key. You have moved this user into the group where the other administrators are, and you have provided the new user with their secret access key and their access key id. However, when she tries to log in to the AWS console, she cannot. Why might that be?
+  - You cannot log in to the AWS console using the Access Key ID / Secret Access Key pair.
+- Every user you create in the IAM systems starts with ________.
+  - No Permissions
+- A __________ is a document that provides a formal statement of one or more permissions.
+  - Policy
+- You have created a new AWS account for your company, and you have also configured multi-factor authentication on the root account. You are about to create your new users. What strategy should you consider in order to ensure that there is good security on this account.
+  - Enact a strong password policy.
+- You have been asked to advise on a scaling concern. The client has an elegant solution that works well. As the information base grows they use CloudFormation to spin up another stack made up of an S3 bucket and supporting compute instances. The trigger for creating a new stack is when the PUT rate approaches 100 PUTs per second. The problem is that as the business grows that number of buckets is growing into the hundreds and will soon be in the thousands. You have been asked what can be done to reduce the number of buckets without changing the basic architecture.
+  - Change the trigger level to around 3000 as S3 can now accommodate much higher PUT and GET levels.
+- You run a meme creation website where users can create memes and then download them for use on their own sites. The original images are stored in S3 and each meme's metadata in DynamoDB. You need to decide upon a low-cost storage option for the memes, themselves. If a meme object is unavailable or lost, a Lambda function will automatically recreate it using the original file from S3 and the metadata from DynamoDB. Which storage solution should you use to store the non-critical, easily reproducible memes in the most cost-effective way?
+  - S3 - 1Zone-IA
+- You have uploaded a file to S3. Which HTTP code would indicate that the upload was successful?
+  - HTTP 200
+- S3 has eventual consistency for which HTTP Methods?
+  - Overwrite PUTS and DELETES
+- What is Amazon Glacier?
+  - An AWS service designed for long term data archival.
+- You work for a health insurance company that amasses a large number of patients' health records. Each record will be used once when assessing a customer, and will then need to be securely stored for a period of 7 years. In some rare cases, you may need to retrieve this data within 24 hours of a claim being lodged. Given these requirements, which type of AWS storage would deliver the least expensive solution?
+  - Glacier
+- The difference between S3 and EBS is that EBS is object-based whereas S3 is block-based.
+  - FALSE
+- What is the availability of S3 – OneZone-IA?
+  - 99.50%
+- One of your users is trying to upload a 7.5GB file to S3. However, they keep getting the following error message: "Your proposed upload exceeds the maximum allowed object size.". What solution to this problem does AWS recommend?
+  - Design your application to use the Multipart Upload API for all objects.
+- You run a popular photo-sharing website that depends on S3 to store content. Paid advertising is your primary source of revenue. However, you have discovered that other websites are linking directly to the images in your buckets, not to the HTML pages that serve the content. This means that people are not seeing the paid advertising, and you are paying AWS unnecessarily to serve content directly from S3. How might you resolve this issue?
+  - Remove the ability for images to be served publicly to the site and then use signed URLs with expiry dates.
+- You have been asked by your company to create an S3 bucket with the name "acloudguru1234" in the EU West region. What would the URL for this bucket be?
+  - https://s3-eu-west-1.amazonaws.com/acloudguru1234
+- You work for a major news network in Europe. They have just released a new mobile app that allows users to post their photos of newsworthy events in real-time, which are then reviewed by your editors before being copied to your website and made public. Your organization expects this app to grow very quickly, essentially doubling its user base each month. The app uses S3 to store the images, and you are expecting sudden and sizable increases in traffic to S3 when a major news event takes place (as users will be uploading large amounts of content.) You need to keep your storage costs to a minimum, and it does not matter if some objects are lost. With these factors in mind, which storage media should you use to keep costs as low as possible?
+  - S3 - One Zone-Infrequent Access
+- How many S3 buckets can I have per account by default?
+  - 100
+- You work for a busy digital marketing company who currently store their data on-premise. They are looking to migrate to AWS S3 and to store their data in buckets. Each bucket will be named after their individual customers, followed by a random series of letters and numbers. Once written to S3 the data is rarely changed, as it has already been sent to the end customer for them to use as they see fit. However, on some occasions, customers may need certain files updated quickly, and this may be for work that has been done months or even years ago. You would need to be able to access this data immediately to make changes in that case, but you must also keep your storage costs extremely low. The data is not easily reproducible if lost. Which S3 storage class should you choose to minimize costs and to maximize retrieval times?
+  - S3 - IA
+- What is the availability of objects stored in S3?
+  - 99.99%
+- S3 has what consistency model for PUTS of new objects?
+  - Read After Write Consistency
+- What does S3 stand for?
+  - Simple Storage Service
+- You are a solutions architect who works with a large digital media company. The company has decided that they want to operate within the Japanese region and they need a bucket called "testbucket" set up immediately to test their web application on. You log in to the AWS console and try to create this bucket in the Japanese region however you are told that the bucket name is already taken. What should you do to resolve this?
+  - Bucket names are global, not regional. This bucket name is already taken. You should choose another bucket name.
+- What is the minimum file size that I can store on S3?
+  - 0 Bytes
+- What is AWS Storage Gateway?
+  - It is a physical or virtual appliance that can be used to cache S3 locally at a customer's site.
