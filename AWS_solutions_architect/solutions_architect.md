@@ -9,6 +9,8 @@
 - Qualification is valid for 2 years
 - Scenario based questions
 
+---
+
 ### Overview of AWS
 
 ---
@@ -141,6 +143,8 @@
 --- 
 
 ### S3 101
+
+---
 
   - **Simple Storage Service.** One of the oldest services on AWS. It provides developers and IT teams with secure, durable, and highly-scalable object storage. S3 is easy to use with a simple web service interface that allows you to store and retrieve information from anywhere in the world.
 
@@ -356,3 +360,166 @@
   - Snowball can Export from S3
   - Exam Scenario:
     - **What would you use if you wanted to transfer a large amount of data into the AWS cloud?** You'll want to use Snowball!
+
+---
+### Storage Gateway
+---
+
+#### What is Storage Gateway?
+
+  - AWS Storage Gateway is a service that connects an on-premises software appliance with cloud-based storage to provide seamless and secure integration between an organization's on-premises IT environment and AWS's storage infrastructure. 
+  - The service enables your to securely store data to the AWS cloud for **scalable and cost-effective storage**.
+
+#### How to use Storage Gateway
+
+  - AWS Storage Gateway's software appliance is available for download as a **virtual machine (VM) image** that you install on a host in your data-center. 
+  - Storage Gateway supports either VMware ESXi or Microsoft Hyper-V. 
+  - Once you've installed your gateway and associated it with your AWS account through the activation process, you can use the AWS Management Console to create the storage gateway option that is right for you.
+
+#### The Three Different Types of Storage Gateway
+
+  - **File Gateway (NFS & SMB)**
+  - **Volume Gateway (iSCSI)** - Stored Volumes, Cached Volumes
+  - **Tape Gateway (VTL)**
+
+#### File Gateway
+
+  - Files are stored as objects in you S3 buckets, accessed through a **Network File System (NFS)** mount point. 
+  - Ownership, permissions, and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. 
+  - Once objects are transferred to S3, they can be managed as native S3 objects, and bucket policies such as versioning, life-cycle management, and cross-region replication apply directly to objects stored in your bucket.
+
+#### Volume Gateway
+
+  - The volume interface presents your applications with disk volumes using the **iSCSI block protocol**.
+  - Data written to these volumes can be asynchronously backed up as point-in-time snapshots of your volumes, and stored in the cloud as Amazon EBS snapshots.
+  - **Snapshots are incremental backups that capture only changed blocks**. All snapshot storage is also compressed to minimize your storage charges.
+
+##### Stored Volumes 
+
+  - Stored volumes let you store your primary data locally, while asynchronously backing up that data to AWS.
+  - Stored volumes provide your on-premises applications with low-latency access to their entire data-sets, while providing durable, off-site backups. 
+  - You can create storage volumes and mount them ad iSCSI devices from your on-premises application servers. 
+  - Data written to your stored volumes is stored on your on-premises storage hardware. This data is asynchronously backed up to Amazon S3 in the form on Amazon Elastic Block Store snapshots. 1GB - 16TB in size for Stored Volumes.
+
+##### Cached Volumes
+
+  - Cached Volumes let you use Amazon S3 as your primary data storage while retaining frequently accessed data locally in your storage gateway.
+  - Cached Volumes minimize the need to scale your on-premises storage infrastructure, while still providing your applications with low-latency access to their frequently accessed data. 
+  - You can create storage volumes up to 32 TB in size and attach to them as iSCSI devices from your on-premises application servers. 
+  - Your gateway stores data that your write to these volumes in Amazon S3 and retains recently read data in your on-premises storage gateway's cache and upload buffer storage. 1GB - 32TB in size for Cached Volumes.
+
+##### Tape Gateway
+
+  - Tape Gateway offers a durable, cost-effective solution to archive your data in the AWS Cloud.
+  - The VTL interface it lets you leverage your existing tape-based backup application infrastructure to store data on virtual tap cartridges that you create on your tape gateway.
+  - Each tape gateway is pre-configured with a media changer and tape drives, which are available to your existing client backup application as iSCSI devices. 
+  - You add tape cartridges as you need to archive your data. Supported by NetBackup, Backup Exec, Veeam etc.
+
+#### Exam Tips:
+
+  - **File Gateway** - For flat files, stored directly on S3. 
+  - **Volume Gateway**
+    - **Stored Volumes** - Entire data-set is stored on site and is asynchronously backed up to S3.
+    - **Cached Volumes** - Entire data set is stored on S3 and the most frequently accessed data is cached on site.
+  - **Gateway Virtual Tape Library**
+
+---
+### IAM & S3 Summary
+---
+
+#### IAM Exam Tips:
+
+  - **Identity Access Management** consists of the following:
+    - **Users**
+    - **Groups**
+    - **Roles**
+    - **Policies**
+  - **IAM is universal**. It does not apply to regions at this time.
+  - The **"root account"** is simply the account created when first setup your AWS account. It has complete Admin access.
+  - New Users have **NO permissions** when first created.
+  - New Users are assigned **Access Key ID** & **Secret Access Keys** when first created.
+  - **These are not the same as a password**. You cannot use the Access Key ID & Secret Access Key to Login to the console. You can use this to access AWS via the API's and Command Line, however.
+  - Always setup **Multi-factor Authentication** on your root account.
+  - You can create and customize your own **password rotation policies**.
+
+#### S3 Exam Tips:
+
+  - Remember that S3 is **Object-based**: i.e. allows you to upload files.
+  - Files can be from **0 Bytes to 5 TB**.
+  - There is **unlimited storage**.
+  - Files are stored in **Buckets**.
+  - **S3 is a universal namespace**. That is, names must be unique globally.
+  - Not suitable to install an operating system on.
+  - Successful uploads will generate a **HTTP 200** status code.
+  - By default, all newly created buckets are **PRIVATE**. You can setup access control to your buckets using:
+    - **Bucket Policies**
+    - **Access Control Lists**
+  - S3 buckets can be configured to create access logs which log all requests made to the S3 bucket. This can be sent to another bucket and even another bucket in another account.
+  - The Key Fundamentals of S3 are:
+    - **Key** (This is simply the name of the object)
+    - **Value** (This is simply the data and is made up of a sequence of bytes)
+    - **Version ID** (Important for Versioning)
+    - **Metadata** (Data about data you are storing)
+    - **Sub-resources**
+      - Access Control Lists
+      - Torrent
+  - Read after Write consistency for PUTS of new Objects
+  - Eventual Consistency for overwrite PUTS and DELETES (can take some time to propagate)
+  - **S3 STORAGE TIERS!**
+     - **S3 Standard** - 99.99% availability and 99.99999999999% durability. Data is stored redundantly across multiple devices in multiple facilities and is designed to sustain the loss of 2 facilities concurrently. (Milliseconds to access data)
+    - **S3 - IA** - Infrequently Accessed. For less frequently accessed data, but requires rapid access when needed. Lower fee than S3 standard, but you are charged a retrieval fee. (Milliseconds to access data)
+    - **S3 One Zone - IA** - Infrequently Accessed. A much cheaper IA option but lacks the multiple AZ data resilience. (Milliseconds to access data)
+    - **S3 Intelligent Tiering** - Leverages machine learning to automatically move data to most cost-effective access tier, without performance impact or operational overhead. (Milliseconds to access data)
+    - **S3 Glacier** - Secure, durable, low-cost storage class for data archiving. You can reliably store any amount of data at costs that are cheaper than on-premises solutions. Retrieval times are configurable, can range from minutes to hours. (Select minutes or hours to access data)
+    - **S3 Glacier Deep Archive** - Amazon S3's lowest-cost storage class. Retrieval time byte latency of 12 hours is acceptable. (Select hours to access data)
+  - Encryption In Transit is achieved by:
+    - **SSL/TLS**
+  - Encryption At Rest (Server Side) is achieved by:
+    - **S3 Managed Keys - SSE-S3**
+    - **AWS Key Management Service, Managed Keys - SSE-KMS**
+    - **Server Side Encryption With Customer Provided Keys - SSE-C**
+
+#### Cross Region Replication
+
+  - Allows for data to be automatically replicated in another region. Allows for increased availability and provides disaster durability.
+  - **Versioning must be enabled** on both the source and destination buckets.
+  - Regions must be **unique**.
+  - Files in an existing bucket are **not replicated automatically**.
+  - All subsequent updated files will be **replicated automatically**.
+  - Delete markers are not replicated.
+  - Deleting individual versions or delete markers will not be replicated.
+
+#### Life Cycle Policies
+
+  - Automates moving your objects between the different storage tiers.
+  - Can be used in conjunction with versioning.
+  - Can be applied to current versions and previous versions.
+
+#### S3 Transfer Acceleration
+
+  - Instead of uploading directly to your S3 bucket, you can use a distinct URL to upload directly to an edge location which will then transfer that file to S3.
+
+#### CloudFront
+
+  - **Edge Location** - This is the location where content will be cached. This is separate to an AWS Region / Availability Zone.
+  - **Origin** - This is the origin of all the files that the CDN will distribute. This can be either an S3 Bucket, an EC2 Instance, an Elastic Load Balancer, or Route53.
+  - **Distribution** - This is the name given to the CDN which consists of a collection of Edge Locations.
+    - **Web Distribution** - Typically used for Websites.
+    - **RTMP** - Used for Media Streaming.
+  - Edge locations are not just **READ** only -- you can **write** to them too! (i.e. put an object on to them)
+
+#### Snowball
+
+  - Understand what Snowball is
+  - Snowball can **Import to S3** 
+  - Snowball can **Export from S3** 
+
+#### Storage Gateway
+
+  - **File Gateway**
+    - For flat files, stored directly on S3.
+  - **Volume Gateway**
+    - **Stored Volumes** - Entire data-set is stored on site and is asynchronously backed up to s3.
+    - **Cached Volumes** - Entire data-set is stored on S3 and the most frequently accessed data is cached on site.
+  - **Gateway Virtual Tape Library**
+    - Used for backup and uses popular backup applications like NetBackup, Backup Exec, Veeam etc.
