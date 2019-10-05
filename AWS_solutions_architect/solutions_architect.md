@@ -602,3 +602,82 @@ What is the default level of access a newly created IAM User is granted?
   - 0 Bytes
 - What is AWS Storage Gateway?
   - It is a physical or virtual appliance that can be used to cache S3 locally at a customer's site.
+
+---
+### Elastic Compute Cloud, EC2 
+---
+
+### EC2 101
+
+  - **Elastic Compute Cloud**, Amazon EC2 is a web service that provides resizable compute capacity in the cloud.
+  - Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, this provides for the ability to quickly scale capacity both up and down as your computing requirements change.
+  - The EC2 solution is drastically faster than traditional server solutions where setting up and deploying physical servers could take days or even months and the costs would all be upfront. 
+  - EC2 allows for provisioning servers in the cloud and takes mere minutes to complete.
+
+#### Pricing Models Instances
+
+  - **On Demand** - No commitment model that allows you to pay by the hour or even second.
+  - **Reserved** - Provides a capacity reservation and offers a significant discount on the hourly charge for an instance. **Contact terms are 1 or 3 year terms**.
+  - **Spot** - Enables you to bid on excess EC2 capacity. Amazon will drop the price on EC2 instances to encourage people to use that surplu capacity. You would set price you're willing to bid at and when the prices for the EC2 instances lowers you will have access to those additional resources. As the on-demand demand goes up, the prices for those instances will go up and if they pass your price point you will lose access to them until the next occurrence of reduced prices. It's essentially a market for buying into extra resources when they're in supply. 
+  - **Dedicated Host** - Physical EC2 server dedicated for your use. Dedicated hosts can help you reduce costs by allowing you to use your existing server-bound software licenses.
+  
+##### On Demand Pricing
+
+> Ideal for:
+  
+  - Users that want low cost and flexibility of EC2 without any upfront payment or long-term commitment.
+  - Applications with short term, spiky, or unpredictable workloads that cannot be interrupted.
+  - Applications being developed or tested on Amazon EC2 for the first time.
+
+##### Reserved Pricing
+
+> Ideal for: 
+
+  - Applications with steady state or predictable usage.
+  - Applications that require reserved capacity.
+  - Users are able to make upfront payments to reduce their total computing cost even further.
+
+##### 3 Types:
+
+  - **Standard Reserved Instances** - Offer up to 75% off on-demand instances. The more you pay upfront and the longer the contract the greater the discount.
+  - **Convertible Reserved Instances** - Offer up to 54% off on-demand instances and allow you to change from one reserved **EC2 Instance Type** to another.
+  - **Scheduled Reserved Instances** - Available to launch within the time windows you reserve. This option allows you to match you capacity reservation along a predictable recurring schedule.
+
+##### Spot Pricing
+
+> Ideal for:
+
+  - Applications that have flexible start and end times.
+  - Applications that are only feasible at very low compute prices.
+  - Users with urgent computing needs for large amounts of additional capacity.
+  - If your spot instance is terminated by EC2, you will not be charged for partial hour usage. If you terminate the instance yourself, you will be charged for any hour which the instance ran.
+
+##### Dedicated Host Pricing 
+
+> Ideal for:
+
+  - Useful for regulatory requirements that may not support multi-tenant virtualization.
+  - Great for licensing which does not support multi-tenancy or cloud deployments (like Oracle licensing).
+  - Can be purchased on-demand.
+  - Can be purchased ad a Reservation for up to 70% off the on-demand price.
+
+#### Exam Tips: 
+
+  - Remember what Amazon EC2 is:
+    - **Elastic Compute Cloud**, Amazon EC2 is a web service that provides resizable compute capacity in the cloud. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, this provides for the ability to quickly scale capacity both up and down as your computing requirements change.
+  - Pricing Models Instances
+    - **On Demand**
+    - **Reserved**
+    - **Spot**
+    - **Dedicated Host**
+  - If the Spot instance is terminated by Amazon EC2, you will not be charged for a partial hour of usage. However, if you terminate the instance yourself, you will be charged for any hour in which the instance ran.
+
+--- 
+### Launch Our First EC2 Instance
+---
+
+#### Exam Tips:
+
+  - Termination Protection is **turned off** by default, you must turn it on.
+  - On an EBS-backed instance, the **default action is for the root EBS volume to be deleted** when the instance is terminated.
+  - EBS Root Volumes of your DEFAULT AMI's cannot be encrypted. You can also use a third party tool (such as bit locker etc.) to encrypt the root volume, or this can be done when creating AMI's in the AWS console or using the API.
