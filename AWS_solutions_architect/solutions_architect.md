@@ -681,3 +681,28 @@ What is the default level of access a newly created IAM User is granted?
   - Termination Protection is **turned off** by default, you must turn it on.
   - On an EBS-backed instance, the **default action is for the root EBS volume to be deleted** when the instance is terminated.
   - EBS Root Volumes of your DEFAULT AMI's cannot be encrypted. You can also use a third party tool (such as bit locker etc.) to encrypt the root volume, or this can be done when creating AMI's in the AWS console or using the API.
+
+--- 
+### Security Groups Basics
+---
+
+  - Every time you make a rule change in a security group, that change takes affect immediately. If you delete your inbound HTTP port 80 rules you will immediately lose the ability to access the website.
+  - **Security Groups are stateful**, when you create an inbound rule an outbound rule is created automatically. If you allow HTTP, SSH, etc. in,it is automatically allowed back out.
+  - Security groups work by blocking everything by default, you as the developer have to allow traffic like HTTP, mySQL, etc. to go through.
+  - All inbound traffic is blocked by default.
+  - All outbound traffic is allowed.
+  - Changes to security groups take effect immediately.
+  - You can have multiple security groups attached to EC2 Instances.
+  - You can specify allow rules, but not deny rules.
+
+#### Exam Tips: 
+
+  - All inbound traffic is blocked by default.
+  - All outbound traffic is allowed.
+  - Changes to security groups take effect immediately.
+  - You can have any number of EC2 instances within a security group.
+  - You can have multiple security groups attached to EC2 Instances.
+  - Security Groups are **STATEFUL**
+  - If you create an inbound rule allowing traffic in, that traffic is automatically allowed back out again.
+  - You cannot block specific IP addresses using Security Groups, instead use Network Access Control Lists.
+  - You can specify allow rules, but not deny rules.
